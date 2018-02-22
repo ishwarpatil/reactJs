@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import TodoItem from './Todoitem.js';
 import $ from 'jquery';
 import './index.css';
 import App from './App';
@@ -88,9 +89,37 @@ class Helloword extends React.Component{
     }
 }
 
+class Todos extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            todos:['I Am Learning ReactJs','I Am Learning Php']
+        }
+    }
+    render(){
+        const {todos} = this.state;
+        return (
+            <section>
+                <form onSubmit={(e) => {
+                    const {todos} = this.state;
+                    //todos.push(this.refs.addTodo.value);
+                    e.preventDefault();
+                    this.setState({
+                        todos:todos.concat(this.refs.addTodo.value)
+                    })
+                    this.refs.addTodo.value = "";
+                }}>
+                    <input type="text" ref="addTodo" />
+                    <button type="Submit">Add Item</button>
+                </form>
+                <TodoItem todos={todos} />
+            </section>
+        )
+    }
+}
 
 ReactDOM.render(
-    <App />,
+    <Todos />,
     document.getElementById('root')
 );
 
