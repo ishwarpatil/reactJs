@@ -8,7 +8,7 @@ import App from './App';
 //Start Children API
 class Fetch extends React.Component {
     constructor() {
-        super()
+        super();
         this.state = {
             content: []
         }
@@ -89,6 +89,7 @@ class Helloword extends React.Component{
     }
 }
 
+//TodosItems
 class Todos extends React.Component{
     constructor(){
         super();
@@ -118,8 +119,57 @@ class Todos extends React.Component{
     }
 }
 
+class Visitecounter extends React.Component{
+    //call First
+    constructor(props){
+        super(props);
+        this.state = {
+          count: 0
+        }
+        console.log("Constructor...");
+    }
+
+    intCount = () => {
+        this.setState({
+            count: this.state.count + 1
+        })
+        console.log(this.state.count)
+    }
+
+    //call Second
+    componentWillMount (){
+        console.log("WillMount...");
+    }
+
+    //return only boolen method (false,true)
+    shouldComponentUpdate(){
+        if(this.state.count > 10){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    //call fouth
+    componentDidMount (){
+        console.log("DidMount");
+    }
+
+    //call third
+    render(){
+        console.log("Render");
+        return(
+            <section>
+                {this.state.count}
+                <button onClick={this.intCount}>Increment</button>
+            </section>
+        )
+    }
+}
+
 ReactDOM.render(
-    <Todos />,
+    <Visitecounter />,
     document.getElementById('root')
 );
 
