@@ -1,0 +1,11 @@
+IF NEW.salary>=50000 THEN
+      SET a=4;
+  ELSEIF new.salary>41000 && new.salary<50000 THEN
+       SET a=3;
+  ELSEIF new.salary>21000 && new.salary<40000 THEN
+       SET a=2;
+  ELSEIF new.salary>0 && new.salary<20000 THEN
+       SET a=1;
+  END IF;
+INSERT into Point(employee_id,total_point) VALUES (new.eid,a);
+END

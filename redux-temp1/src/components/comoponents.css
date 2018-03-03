@@ -1,0 +1,9 @@
+.middle{
+    position: absolute;
+    margin:auto;
+}
+.square-box{
+    height: 35%;
+    width: 35%;
+    border:1px solid black
+}
