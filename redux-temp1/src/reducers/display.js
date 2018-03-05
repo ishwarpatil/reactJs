@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 export const DISPLAY='display';
 export const DELETE='delete';
+export const EDIT='edit';
 const initialState={
     allData:[],
     getId:[]
@@ -22,6 +23,13 @@ export default (state=initialState,action)=>{
             const index = _.findIndex(data, { '_id': action.payload});
             data.splice(index,1);
             return { ...state,allData:_.cloneDeep(data)};
+        case EDIT:
+            debugger;
+            const editdata = state.allData;
+            const findid = action.payload;
+            const indexfind = _.findIndex(editdata, { '_id': findid._id});
+            editdata[indexfind] = findid;
+            return { ...state,allData:_.cloneDeep(editdata)};
         default:
             return state;
     }

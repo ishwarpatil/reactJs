@@ -4,6 +4,10 @@ var app = express();
 var mongoose = require('mongoose');
 var url = "mongodb://localhost:27017/newWork";
 
+var expupload=require('express-fileupload');
+app.use(expupload())
+app.use(express.static(__dirname+'/'));
+
 var bodyparser = require('body-parser');
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
@@ -44,6 +48,10 @@ var citys = mongoose.Schema({
 var dept = mongoose.model('dept', depts);
 
 var city = mongoose.model('city', citys);
+
+app.get('/',(req,res)=>{
+    res.sendFile(__dirname+'/')
+});
 
 //for department
 app.post('/insert', (req, res) => {
@@ -108,7 +116,7 @@ app.post('/delete', (req, res) => {
 });
 
 app.post('/update', (req, res) => {
-    var id = req.body.id;
+    var id = req.body._id;
     var name = req.body.name;
     var email = req.body.email;
     var hobby = req.body.hobby;

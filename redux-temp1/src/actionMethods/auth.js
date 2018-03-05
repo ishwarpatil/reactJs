@@ -1,7 +1,7 @@
 import {LOGIN, LOGOUT} from './../reducers/auth'
 import {TASK} from './../reducers/task'
 import {FORM,CITY} from './../reducers/form'
-import {DISPLAY,DELETE} from './../reducers/display'
+import {DISPLAY,DELETE,EDIT} from './../reducers/display'
 import axios from 'axios';
 export const login = (info) => {
     debugger;
@@ -82,6 +82,20 @@ export const deleteData = (info) => {
         axios.post('http://localhost:8080/delete',{info}).then((result) => {
             dispatch({
                 type: DELETE,
+                payload: info
+            })
+        }).catch((err) => {
+            console.log(err);
+        });
+    }
+};
+
+export const editData = (info) => {
+    debugger;
+    return (dispatch) => {
+        axios.post('http://localhost:8080/update',info).then((result) => {
+            dispatch({
+                type: EDIT,
                 payload: info
             })
         }).catch((err) => {

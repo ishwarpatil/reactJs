@@ -7,3 +7,40 @@
     width: 35%;
     border:1px solid black
 }
+
+.jumbotron #img
+{
+    margin-top: -3%;
+}
+
+.jumbotron #collegeName
+{
+    margin-top: -7%;
+}
+.sidenav {
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+.sidenav {
+    height: auto;
+    padding: 15px;
+}
+.row.content {width: 60%}
+#home .info1 img
+{
+    float: left;
+    border-top-right-radius:20%;
+    border-bottom-left-radius:20%;
+}
+#home p
+{
+    text-align: justify;
+    font-size: 22px;
+}
+#home .info2 img
+{
+    float: right;
+    border-top-right-radius:20%;
+    border-bottom-left-radius:20%;
+}
