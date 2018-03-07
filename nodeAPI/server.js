@@ -11,10 +11,10 @@ app.use(express.static(__dirname+'/'));
 var bodyparser = require('body-parser');
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
-app.use((req,res,next)=>{
-    res.header("Access-Control-Allow-Origin", req.headers.origin);
-    next();
-});
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+app.use(passport.initialize());
 
 var depts = mongoose.Schema({
     name: {
@@ -26,7 +26,7 @@ var depts = mongoose.Schema({
         default:''
     },
     hobby: {
-        type: String,
+        type: Array,
         default:''
     },
     city: {
@@ -45,12 +45,66 @@ var citys = mongoose.Schema({
     }
 });
 
+var users = mongoose.Schema({
+    username: {
+        type: String,
+    },
+    password:{
+      type: String,
+    }
+});
+
 var dept = mongoose.model('dept', depts);
 
 var city = mongoose.model('city', citys);
 
+var user = mongoose.model('user', users);
+
+//passprotjs
+passport.serializeUser((user, done) => {
+    console.log("in serialize Method");
+    done(null, user)
+});
+passport.deserializeUser((user, done) => {
+    console.log("in deserialize Method");
+    done(null, user)
+});
+
+passport.use(new LocalStrategy((usernames, passwords, done) => {
+    user.find({ username:usernames,password:passwords}).then((rows) => {
+        if (!rows[0]) {
+            return done(null, false, {message: 'Wrong user'});
+        }
+        return done(null,rows);
+    }).catch((err) => {
+        res.send(err);
+    });
+}));
+
+app.post('/authenticate', passport.authenticate('local', {
+    successRedirect: '/ok',
+    failureRedirect: '/no'
+}));
+
+app.get('/ok', (req, res) => {
+    res.send("Ok");
+});
+
+app.get('/no', (req, res) => {
+    res.send("No");
+});
+
 app.get('/',(req,res)=>{
     res.sendFile(__dirname+'/')
+});
+
+app.post('/insert/users', (req, res) => {
+    let newuser = new user(req.body);
+    newuser.save().then((data) => {
+        res.send("1 Record Inserted...");
+    }).catch((err) => {
+        res.send(err);
+    });
 });
 
 //for department

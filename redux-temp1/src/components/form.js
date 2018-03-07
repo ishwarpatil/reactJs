@@ -36,18 +36,14 @@ class Form extends React.Component {
     changeHandler = (e) => {
         const {userValues} = this.state;
         userValues[e.target.name] = e.target.value;
-
-        // if(this.state.userValues.hobby.indexOf(e.target.value)==-1)
-        //     this.state.userValues.hobby.push(e.target.value);
-        // else
-        //     this.state.userValues.hobby.pop(e.target.value);
-
         this.setState({userValues});
     };
     changeHandler1 = (e) => {
-        const {userValues} = this.state;
-        userValues[e.target.name] = e.target.value;
-        this.setState({userValues});
+        if(this.state.userValues.hobby.indexOf(e.target.value)===-1)
+            this.state.userValues.hobby.push(e.target.value);
+        else
+            this.state.userValues.hobby.pop(e.target.value);
+        this.setState(this.state.userValues.hobby);
     };
 
     render() {
@@ -74,9 +70,9 @@ class Form extends React.Component {
                                     </div>
                                     <div className="form-check">
                                         <label className="form-check-label">
-                                            <input className="form-check-input" type="checkbox" onChange={this.changeHandler}
+                                            <input className="form-check-input" type="checkbox" onChange={this.changeHandler1}
                                                    name="hobby" value="Reading"/> Reading<br/>
-                                            <input className="form-check-input" type="checkbox" onChange={this.changeHandler}
+                                            <input className="form-check-input" type="checkbox" onChange={this.changeHandler1}
                                                    name="hobby" value="Cricket"/> Cricket
                                         </label>
                                     </div>

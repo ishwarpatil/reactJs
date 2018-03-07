@@ -54,6 +54,14 @@ class Display extends React.Component{
         this.setState({userValues});
     };
 
+    changeHandler1 = (e) => {
+        if(this.state.userValues.hobby.indexOf(e.target.value)===-1)
+            this.state.userValues.hobby.push(e.target.value);
+        else
+            this.state.userValues.hobby.pop(e.target.value);
+        this.setState(this.state.userValues.hobby);
+    };
+
     toggle = () =>{
         const {isEditing} = this.state;
         this.setState({
@@ -69,8 +77,11 @@ class Display extends React.Component{
                         _id:value._id,
                         name: value.name,
                         email: value.email,
+                        hobby: value.hobby,
                         city: value.city,
-                }})
+                }},()=>{
+                    console.log(this.state.userValues.hobby);
+                })
             }
         })
     };
@@ -99,10 +110,10 @@ class Display extends React.Component{
                                         </div>
                                         <div className="form-check">
                                             <label className="form-check-label">
-                                                <input className="form-check-input" type="checkbox" onChange={this.changeHandler}
-                                                       name="hobby" value="Reading"/> Reading<br/>
-                                                <input className="form-check-input" type="checkbox" onChange={this.changeHandler}
-                                                       name="hobby" value="Cricket"/> Cricket
+                                                <input className="form-check-input" type="checkbox" onChange={this.changeHandler1}
+                                                       name="hobby" value="Reading" checked={(this.state.userValues.hobby.indexOf('Reading')===-1)?false:true} /> Reading<br/>
+                                                <input className="form-check-input" type="checkbox" onChange={this.changeHandler1}
+                                                       name="hobby" value="Cricket" checked={(this.state.userValues.hobby.indexOf('Cricket')===-1)?false:true} /> Cricket
                                             </label>
                                         </div>
                                         <div className="form-group">
@@ -110,12 +121,15 @@ class Display extends React.Component{
                                             <select name="city" onChange={this.changeHandler}>
                                                 {
                                                     this.props.allCitys && this.props.allCitys.map((value,index) => {
-                                                        return <option value={value.citys}>{value.citys}</option>
+                                                        return this.state.userValues.city===value.citys?
+                                                            <option selected="true" value={value.citys}>{value.citys}</option>
+                                                        :
+                                                            <option value={value.citys}>{value.citys}</option>
                                                     })
                                                 }
                                             </select>
                                         </div>
-                                        <button type="submit" className="btn btn-primary" onClick={this.toggle} >Submit</button>
+                                        <button type="submit" className="btn btn-primary" onClick={this.toggle}>Submit</button>
                                     </form>
                                 </div>
                                 <div className="modal-footer">
@@ -144,7 +158,7 @@ class Display extends React.Component{
                             <tbody>
                                 {
                                     this.props.allData && this.props.allData.map((value, index) => {
-                                        return <tr key={index}><td>{value._id}</td><td>{value.name}</td><td>{value.email}</td><td>{value.hobby}</td><td>{value.city}</td><td><button onClick={()=> this.dataDelete(value._id)} className="btn btn-danger">Detete</button></td><td><button className="btn btn-primary" data-toggle="modal" data-target="#myModal" onClick={()=> this.dataEdit(value._id)}>Edit</button></td></tr>
+                                        return <tr key={index}><td>{value._id}</td><td>{value.name}</td><td>{value.email}</td><td>{value.hobby.map((v,index)=>{ return index===0 ? v : ','+v})}</td><td>{value.city}</td><td><button onClick={()=> this.dataDelete(value._id)} className="btn btn-danger">Detete</button></td><td><button className="btn btn-primary" data-toggle="modal" data-target="#myModal" onClick={()=> this.dataEdit(value._id)}>Edit</button></td></tr>
                                     })
                                 }
                             </tbody>

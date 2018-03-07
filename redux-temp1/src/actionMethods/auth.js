@@ -8,9 +8,13 @@ export const login = (info) => {
     return (dispatch) => {
         debugger;
         localStorage.setItem('authUser', info);
-        dispatch({
-            type: LOGIN,
-            payload: info
+        axios.post('http://localhost:8080/authenticate', info).then((data) => {
+            dispatch({
+                type: LOGIN,
+                payload: info
+            })
+        }).catch((err) => {
+            console.log(err);
         });
     }
 };
