@@ -33,6 +33,9 @@ var depts = mongoose.Schema({
         type: String,
         default:''
     },
+    document: {
+        type: String
+    },
     flag: {
         type: String,
         default:false
@@ -109,6 +112,8 @@ app.post('/insert/users', (req, res) => {
 
 //for department
 app.post('/insert', (req, res) => {
+    var sampleFile=req.files.document;
+    console.log(sampleFile);
     let newdept = new dept(req.body);
     newdept.save().then((data) => {
         console.log("1 Record Inserted...");

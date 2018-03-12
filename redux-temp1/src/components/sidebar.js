@@ -7,7 +7,6 @@ class Sidebar extends React.Component{
         super();
         this.state={}
     }
-
     render(){
         return(
             <div className="col-sm-3 sidenav">
@@ -17,7 +16,7 @@ class Sidebar extends React.Component{
                             <li className="list-group-item"><NavLink to="/">Home</NavLink></li>
                             <li className="list-group-item"><NavLink to="/form">Register</NavLink></li>
                             <li className="list-group-item"><NavLink to="/display">Details</NavLink></li>
-                            <li className="list-group-item"><NavLink to="#">Logout</NavLink></li>
+                            <li className="list-group-item"><NavLink to="/login" onClick={(e)=>{ e.preventDefault(); localStorage.clear(); }}>Logout</NavLink></li>
                         </ul>
                     </div>
                 </nav>

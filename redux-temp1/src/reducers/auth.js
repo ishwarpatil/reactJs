@@ -2,7 +2,6 @@ export const LOGIN='login';
 export const LOGOUT='logout';
 const initialState={
     user:localStorage.getItem('authUser') || null
-    //user:''
 };
 
 export default (state=initialState,action)=>{

@@ -3,6 +3,8 @@ import {login,logout} from './../actionMethods/auth';
 import {bindActionCreators} from 'redux';
 import './comoponents.css';
 import { connect} from 'react-redux';
+import Header from '../include/header';
+import Footer from '../include/footer';
 
 class Login extends React.Component{
     constructor(){
@@ -30,11 +32,17 @@ class Login extends React.Component{
     render(){
         debugger;
         return(
-            <div className="middle square-box">
-                Login<br/>
-                <input name="username" value={this.state.userValues.username} onChange={this.changeHandler} type="text" placeholder="email"/><br/>
-                <input name="password" value={this.state.userValues.password} onChange={this.changeHandler} type="password" placeholder="password"/><br/>
-                <button onClick={this.loginHandler}>Login</button>
+            <div>
+                <Header />
+                <div className="col-sm-12">
+                    <div className="col-sm-12">
+                        Login<br/>
+                        <input name="username" value={this.state.userValues.username} onChange={this.changeHandler} type="text" placeholder="email"/><br/>
+                        <input name="password" value={this.state.userValues.password} onChange={this.changeHandler} type="password" placeholder="password"/><br/>
+                        <button onClick={this.loginHandler}>Login</button>
+                    </div>
+                </div>
+                <Footer />
             </div>
         )
 

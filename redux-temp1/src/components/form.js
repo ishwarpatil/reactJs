@@ -15,7 +15,8 @@ class Form extends React.Component {
                 name: '',
                 email: '',
                 hobby: [],
-                city: ''
+                city: '',
+                document:''
             }
         }
     }
@@ -46,6 +47,9 @@ class Form extends React.Component {
         this.setState(this.state.userValues.hobby);
     };
 
+    
+
+
     render() {
         debugger;
         return (
@@ -57,7 +61,7 @@ class Form extends React.Component {
                         <center>
                             <div className="col-sm-6">
                                 <h2>Stacked form</h2>
-                                <form action="" onSubmit={this.formHandler}>
+                                <form action="" onSubmit={this.formHandler} enctype="multipart/form-data">
                                     <div className="form-group">
                                         <label>Name:</label>
                                         <input type="text" className="form-control" value={this.state.userValues.name}
@@ -85,6 +89,11 @@ class Form extends React.Component {
                                                 })
                                             }
                                         </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Document:</label>
+                                        <input type="file" className="form-control"
+                                               onChange={this.changeHandler} name="document"/>
                                     </div>
                                     <button type="submit" className="btn btn-primary">Submit</button>
                                 </form>

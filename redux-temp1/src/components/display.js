@@ -1,5 +1,5 @@
 import React from 'react';
-import {displayData,deleteData,editData} from './../actionMethods/auth';
+import {displayData,deleteData,editData,sortAction} from './../actionMethods/auth';
 import {allCity} from './../actionMethods/auth';
 import {bindActionCreators} from 'redux';
 import './comoponents.css';
@@ -20,7 +20,9 @@ class Display extends React.Component{
                 email: '',
                 hobby: [],
                 city: '',
-            }
+            },
+            searchText:'',
+            searchArr:[]
         }
     }
 
@@ -86,7 +88,55 @@ class Display extends React.Component{
         })
     };
 
+    //Sorting
+    handleSortAsc=(e)=>{
+        e.preventDefault();
+        debugger;
+        let text=(e.target.id).toLowerCase();
+        let sortArr=[...this.props.allData];
+        sortArr.sort((a,b)=>a[text]>b[text]);
+        console.log('sortArray',sortArr);
+        this.props.sortAction(sortArr);
+    };
+
+    handleSortDesc=(e)=>{
+        e.preventDefault();
+        debugger;
+        let text=(e.target.id).toLowerCase();
+        let sortArr=[...this.props.allData];
+        sortArr.sort((a,b)=>a[text]<b[text]);
+        console.log('sortArray',sortArr);
+        this.props.sortAction(sortArr);
+    };
+
+
+    //Searching
+    handleSearch=(e)=>{
+        var s=e.target.value;
+        this.setState({
+            searchText:e.target.value
+        },()=>{
+            var tempArr=this.props.allData;
+            var newArr=[];
+            for(var i=0;i<tempArr.length;i++){
+                if(this.state.searchText!==''){
+                    if(tempArr[i].name.indexOf(this.state.searchText)!==-1 || tempArr[i].email.indexOf(this.state.searchText)!==-1 || tempArr[i].hobby.indexOf(this.state.searchText)!==-1 || tempArr[i].city.indexOf(this.state.searchText)!==-1){
+                        newArr.push(tempArr[i]);
+                        this.setState({
+                            searchArr:newArr
+                        })
+                    }
+                }
+                else{
+                    this.setState({
+                        searchArr:[]
+                    })
+                }
+            }
+        })};
+
     render(){
+        let records=this.state.searchArr.length!==0?this.state.searchArr:this.props.allData;
         debugger;
         return(
             <div>
@@ -143,11 +193,15 @@ class Display extends React.Component{
                 <div className="row content">
                     <Sidebar />
                     <div className="col-sm-9">
+                        <div className="form-group">
+                            <label>Searching : </label>
+                            <input type="text" name="search" onChange={this.handleSearch}/>
+                        </div>
+
                         <table id="example" className="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
+                                    <th>Name&nbsp;&nbsp;&nbsp;<i className="fa" id='Name' onClick={this.handleSortAsc}>&#xf0de;</i><i className="fa" id='Name' onClick={this.handleSortDesc}>&#xf0dd;</i></th>
                                     <th>Email</th>
                                     <th>Hobby</th>
                                     <th>City</th>
@@ -157,8 +211,8 @@ class Display extends React.Component{
                             </thead>
                             <tbody>
                                 {
-                                    this.props.allData && this.props.allData.map((value, index) => {
-                                        return <tr key={index}><td>{value._id}</td><td>{value.name}</td><td>{value.email}</td><td>{value.hobby.map((v,index)=>{ return index===0 ? v : ','+v})}</td><td>{value.city}</td><td><button onClick={()=> this.dataDelete(value._id)} className="btn btn-danger">Detete</button></td><td><button className="btn btn-primary" data-toggle="modal" data-target="#myModal" onClick={()=> this.dataEdit(value._id)}>Edit</button></td></tr>
+                                     records.map((value, index) => {
+                                        return <tr key={index}><td>{value.name}</td><td>{value.email}</td><td>{value.hobby.map((v,index)=>{ return index===0 ? v : ','+v})}</td><td>{value.city}</td><td><button onClick={()=> this.dataDelete(value._id)} className="btn btn-danger">Detete</button></td><td><button className="btn btn-primary" data-toggle="modal" data-target="#myModal" onClick={()=> this.dataEdit(value._id)}>Edit</button></td></tr>
                                     })
                                 }
                             </tbody>
@@ -176,5 +230,5 @@ const mapStateToProps=(state)=>{
         allCitys: state.city.allCity
     }};
 
-const mapDispatchToProps=(dispatch)=>bindActionCreators({displayData,deleteData,allCity,editData},dispatch);
+const mapDispatchToProps=(dispatch)=>bindActionCreators({displayData,deleteData,allCity,editData,sortAction},dispatch);
 export default connect(mapStateToProps,mapDispatchToProps)(Display);

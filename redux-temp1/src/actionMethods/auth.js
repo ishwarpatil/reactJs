@@ -4,18 +4,24 @@ import {FORM,CITY} from './../reducers/form'
 import {DISPLAY,DELETE,EDIT} from './../reducers/display'
 import axios from 'axios';
 export const login = (info) => {
-    debugger;
+   // debugger;
     return (dispatch) => {
-        debugger;
+        //debugger;
         localStorage.setItem('authUser', info);
-        axios.post('http://localhost:8080/authenticate', info).then((data) => {
+        if(info.username!=='' && info.username==='admin'){
+            if(info.password!=='' && info.password==='admin'){
+                dispatch({
+                    type: LOGIN,
+                    payload: 'Success'
+                })
+            }
+        }
+        else{
             dispatch({
                 type: LOGIN,
-                payload: info
+                payload: 'Fail'
             })
-        }).catch((err) => {
-            console.log(err);
-        });
+        }
     }
 };
 export const logout = () => {
@@ -37,7 +43,7 @@ export const task = (info) => {
 };
 
 export const formData = (info) => {
-    debugger;
+    //debugger;
     return (dispatch) => {
         axios.post('http://localhost:8080/insert', info).then((data) => {
             dispatch({
@@ -51,7 +57,7 @@ export const formData = (info) => {
 };
 
 export const displayData = (info) => {
-    debugger;
+    //debugger;
     return (dispatch) => {
         axios.get('http://localhost:8080/display').then((result) => {
             debugger;
@@ -66,7 +72,7 @@ export const displayData = (info) => {
 };
 
 export const allCity = (info) => {
-    debugger;
+   // debugger;
     return (dispatch) => {
         axios.get('http://localhost:8080/display/city').then((result) => {
             debugger;
@@ -81,7 +87,7 @@ export const allCity = (info) => {
 };
 
 export const deleteData = (info) => {
-    debugger;
+   // debugger;
     return (dispatch) => {
         axios.post('http://localhost:8080/delete',{info}).then((result) => {
             dispatch({
@@ -95,7 +101,7 @@ export const deleteData = (info) => {
 };
 
 export const editData = (info) => {
-    debugger;
+    //debugger;
     return (dispatch) => {
         axios.post('http://localhost:8080/update',info).then((result) => {
             dispatch({
@@ -107,3 +113,7 @@ export const editData = (info) => {
         });
     }
 };
+export const sortAction=(sortarr)=>{
+    debugger;
+    return ({type:'SORT',payload:sortarr});
+}

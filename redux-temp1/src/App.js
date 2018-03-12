@@ -10,10 +10,11 @@ import display from './components/display';
 
 class App extends Component {
   render() {
+
     const PrivateRoute=({component:Component,...rest})=>{
       return (
         <Route {...rest} render={(routeProps)=>(
-            this.props.user ?
+            this.props.users ?
             <Component {...routeProps}/>:<Redirect to='/login'/>)}/>
 
       )
@@ -22,7 +23,7 @@ class App extends Component {
       const PublicRoute=({component:Component,...rest})=>{
           return (
               <Route {...rest} render={(routeProps)=>(
-                  !this.props.user ?
+                  ! this.props.users ?
                   <Component {...routeProps}/>:
                       <Redirect to="/"/>
               )}/>
@@ -30,19 +31,20 @@ class App extends Component {
       };
     return (
         <BrowserRouter>
-      <div className="App">
-          <PrivateRoute exact path="/" component={Home}/>
-          <PrivateRoute exact path="/task" component={task}/>
-          <PrivateRoute exact path="/form" component={form}/>
-          <PrivateRoute exact path="/display" component={display}/>
-          <PublicRoute path="/login" component={Login}/>
-      </div>
+              <div className="App">
+                  <PrivateRoute exact path="/" component={Home}/>
+                  <PrivateRoute exact path="/task" component={task}/>
+                  <PrivateRoute exact path="/form" component={form}/>
+                  <PrivateRoute exact path="/display" component={display}/>
+                  <PublicRoute path="/login" component={Login}/>
+              </div>
         </BrowserRouter>
     );
   }
 }
+
 const mapStateToProps=(state)=>{return{
-    user:state.auth.user
+    users:state.auth.user
 }};
 
 export default connect(mapStateToProps,null)(App);

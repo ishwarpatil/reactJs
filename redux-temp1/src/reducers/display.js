@@ -30,6 +30,10 @@ export default (state=initialState,action)=>{
             const indexfind = _.findIndex(editdata, { '_id': findid._id});
             editdata[indexfind] = findid;
             return { ...state,allData:_.cloneDeep(editdata)};
+        case 'SORT':
+            debugger;
+            return { ...state,allData:_.cloneDeep(action.payload)};
+
         default:
             return state;
     }
