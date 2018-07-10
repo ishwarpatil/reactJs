@@ -1,0 +1,11 @@
+.nav-bar-main-container{
+    height: 100%;
+}
+
+.nav-bar-link{
+    padding: 0px 10px;
+    font-size: 23px;
+}
+.nav-bar-right{
+    float: right;
+}
